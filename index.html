@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Clark Ngo · AI for Educators — Showcase</title>
+<meta name="description" content="Outputs and learnings from the AI for Educators workshop — apps, simulations, labs, notes, and experiments by Clark Ngo." />
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-soft: #161b22;
+    --card: #1c2230;
+    --card-2: #232b3d;
+    --ink: #e8edf5;
+    --ink-soft: #9aa7bd;
+    --line: #2a3346;
+    --accent: #5b8cff;
+    --accent-2: #8a6bff;
+    --live: #35d07f;
+    --exp: #ffb347;
+    --shadow: 0 10px 30px rgba(0,0,0,.35);
+    --radius: 16px;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f4f6fb;
+      --bg-soft: #ffffff;
+      --card: #ffffff;
+      --card-2: #f0f3fa;
+      --ink: #16202e;
+      --ink-soft: #5a6577;
+      --line: #e2e8f2;
+      --shadow: 0 10px 30px rgba(20,40,80,.10);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background:
+      radial-gradient(1200px 600px at 10% -10%, rgba(91,140,255,.18), transparent 60%),
+      radial-gradient(1000px 500px at 110% 0%, rgba(138,107,255,.16), transparent 55%),
+      var(--bg);
+    color: var(--ink);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+
+  /* Header */
+  header { padding: 68px 0 26px; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    padding: 6px 12px; border-radius: 999px;
+  }
+  h1 {
+    font-size: clamp(30px, 5vw, 48px);
+    line-height: 1.08; margin: 18px 0 10px; letter-spacing: -.02em;
+    background: linear-gradient(120deg, var(--ink), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .lead { color: var(--ink-soft); font-size: 18px; max-width: 680px; margin: 0 0 8px; }
+  .byline { color: var(--ink-soft); font-size: 15px; margin-top: 14px; }
+  .byline a { color: var(--accent); text-decoration: none; font-weight: 600; }
+  .byline a:hover { text-decoration: underline; }
+  .disclaimer {
+    display: flex; gap: 12px; align-items: flex-start;
+    margin: 22px 0 4px; max-width: 760px;
+    background: color-mix(in srgb, var(--accent) 8%, var(--bg-soft));
+    border: 1px solid color-mix(in srgb, var(--accent) 24%, transparent);
+    border-radius: 12px; padding: 14px 16px;
+  }
+  .disclaimer .disc-icon {
+    flex: none; width: 22px; height: 22px; border-radius: 50%;
+    display: grid; place-items: center; font-size: 13px; font-weight: 700;
+    color: #fff; background: linear-gradient(120deg, var(--accent), var(--accent-2));
+  }
+  .disclaimer p { margin: 0; font-size: 14px; color: var(--ink-soft); }
+  .disclaimer strong { color: var(--ink); }
+
+  /* Section */
+  .section-title {
+    display: flex; align-items: baseline; gap: 12px;
+    margin: 44px 0 4px; font-size: 14px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft);
+  }
+  .section-title::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+  /* Grid */
+  .grid {
+    display: grid; gap: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    margin: 20px 0 8px;
+  }
+
+  /* Flip card */
+  .card { perspective: 1400px; height: 234px; cursor: pointer; }
+  .card.hidden { display: none; }
+  .flip {
+    position: relative; width: 100%; height: 100%;
+    transition: transform .6s cubic-bezier(.2,.7,.2,1);
+    transform-style: preserve-3d;
+  }
+  .card:hover .flip, .card:focus-within .flip, .card.flipped .flip { transform: rotateY(180deg); }
+  .face {
+    position: absolute; inset: 0; border-radius: var(--radius);
+    backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    border: 1px solid var(--line); box-shadow: var(--shadow);
+    padding: 20px; display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .front { background: linear-gradient(160deg, var(--card), var(--card-2)); }
+  .front::before {
+    content: ""; position: absolute; top: -40px; right: -40px;
+    width: 130px; height: 130px; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--accent) 45%, transparent), transparent 70%);
+    opacity: .5;
+  }
+  .back {
+    transform: rotateY(180deg);
+    background: linear-gradient(160deg, var(--card-2), var(--card));
+    justify-content: space-between;
+  }
+  .kicker {
+    align-self: flex-start; font-size: 12px; font-weight: 700;
+    letter-spacing: .06em; text-transform: uppercase; color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    padding: 5px 10px; border-radius: 999px;
+  }
+  .card h3 { margin: 14px 0 10px; font-size: 20px; letter-spacing: -.01em; }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pill {
+    font-size: 11.5px; font-weight: 600; color: var(--ink-soft);
+    border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px;
+  }
+  .flip-hint {
+    margin-top: auto; font-size: 12px; color: var(--ink-soft);
+    display: inline-flex; align-items: center; gap: 6px; opacity: .8;
+  }
+  .back-body { overflow-y: auto; }
+  .desc { font-size: 13.5px; color: var(--ink-soft); margin: 0 0 14px; }
+  .back h3 { margin: 0 0 8px; font-size: 18px; }
+  .visit {
+    display: inline-flex; align-items: center; gap: 8px; align-self: flex-start;
+    text-decoration: none; font-weight: 700; font-size: 15px; color: #fff;
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    padding: 11px 18px; border-radius: 11px; transition: .18s;
+  }
+  .visit:hover { transform: translateY(-2px); box-shadow: 0 8px 20px color-mix(in srgb, var(--accent) 40%, transparent); }
+  .tag { font-size: 12px; color: var(--ink-soft); }
+
+  footer {
+    margin: 60px 0 40px; padding-top: 24px; border-top: 1px solid var(--line);
+    color: var(--ink-soft); font-size: 14px; text-align: center;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+  @media (hover: none) { .flip-hint::after { content: " — tap to flip"; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="eyebrow">✦ AI for Educators · Workshop Showcase</span>
+    <h1>Building &amp; Learning with AI</h1>
+    <p class="lead">A collection of outputs and experiments from the AI for Educators workshop — interactive apps, 3D simulations, technical labs, notes, and creative builds. Hover or tap any card to flip it.</p>
+    <p class="byline">
+      By <a href="https://clarkngo.github.io/" target="_blank" rel="noopener">Clark Ngo</a>
+    </p>
+    <div class="disclaimer">
+      <span class="disc-icon">i</span>
+      <p><strong>A quick heads-up:</strong> these are outputs and learnings from the workshop. Some are polished and fully live; others are experimental works-in-progress that may be rough, incomplete, or change over time. Explore with curiosity — and expect a few edges.</p>
+    </div>
+  </header>
+
+  <main id="app"></main>
+
+  <footer>
+    Made with curiosity during the <strong>AI for Educators</strong> workshop ·
+    <a href="https://clarkngo.github.io/" target="_blank" rel="noopener">clarkngo.github.io</a>
+  </footer>
+</div>
+
+<script>
+const DATA = [
+  {
+    section: "Start Here",
+    items: [
+      { title: "Personal Site", kicker: "Home base", status: "live", url: "https://clarkngo.github.io/", tags: "About · Hub", desc: "The front door to everything I build. Start here for a snapshot of who I am, the projects I care about, and links out to every experiment, course, and note on this page." },
+      { title: "Portfolio", kicker: "CityU contributions", status: "live", url: "https://clarkngo.github.io/cityu-contributions/", tags: "Teaching · Impact", desc: "A curated record of my contributions at City University — courses shaped, tools built, and initiatives supported. The clearest picture of the work behind the experiments." },
+      { title: "Courses", kicker: "Teaching", status: "live", url: "https://clarkngo.github.io/courses/", tags: "Curriculum · Resources", desc: "Course materials, syllabi, and learning resources I've developed for students — the teaching foundation that many of these AI experiments were designed to support." },
+      { title: "Playground", kicker: "Experiments hub", status: "live", url: "https://clarkngo.github.io/playground/", tags: "Sandbox · Index", desc: "The sandbox where most of these builds live and grow. Simulators, calculators, labs, notes, and half-finished ideas all start here before they graduate into standalone projects." },
+    ]
+  },
+  {
+    section: "AI Tools & Apps",
+    items: [
+      { title: "Prompt Builder", kicker: "AI tooling", status: "live", url: "https://clarkngo.github.io/prompt-builder/", tags: "Prompting · Productivity", desc: "An interactive workbench for composing better prompts — structure your intent, add context and constraints, and assemble reusable, higher-quality instructions for any AI model." },
+      { title: "Orator Lab", kicker: "Speech refinement", status: "exp", url: "https://clarkngo.github.io/orator-lab/#workspace?case=schmidt", tags: "Public speaking · Feedback", desc: "A workspace for refining and rehearsing speeches with AI-assisted feedback. Load a case, work through the delivery, and see how phrasing, pacing, and structure can be sharpened." },
+      { title: "AI Tools", kicker: "Toolkit", status: "exp", url: "https://clarkngo.github.io/AI-tools/", tags: "Collection · Utilities", desc: "A collection of AI-powered tools and utilities gathered in one place — a growing toolkit of practical helpers built and curated throughout the workshop." },
+      { title: "AI Storybooks", kicker: "Generative reading", status: "exp", url: "https://clarkngo.github.io/AI-storybooks/", tags: "Kids · Generative", desc: "AI-generated storybooks and creative reading tools — an exploration of how generative models can produce illustrated, age-appropriate stories for young learners." },
+      { title: "AI Unplugged", kicker: "AI without a screen", status: "exp", url: "https://clarkngo.github.io/AI-Unplugged/", tags: "Activities · No-code", desc: "Hands-on activities that teach how AI actually works — no computers required. Great for classrooms, showing the concepts behind machine learning through physical, tactile exercises." },
+      { title: "Digital Twin", kicker: "Concept intro", status: "exp", url: "https://clarkngo.github.io/playground/digital-twin/01-intro.html", tags: "Simulation · Concept", desc: "An interactive introduction to digital twins — what they are, why they matter, and how a live virtual model of a physical system can be used to monitor and predict behavior." },
+      { title: "Conversation to Design", kicker: "Chat → RAG", status: "exp", url: "https://clarkngo.github.io/playground/conversation-to-design/01-employee-chat-rag.html", tags: "RAG · System design", desc: "Walks a plain conversation all the way to a designed system — an employee chat assistant backed by retrieval-augmented generation, showing how requirements become architecture." },
+    ]
+  },
+  {
+    section: "Simulations & 3D",
+    items: [
+      { title: "Maritime Explorer", kicker: "3D simulation", status: "exp", url: "https://clarkngo.github.io/physical-ai/#/maritime/explorer", tags: "3D · WebGL", desc: "An explorable 3D maritime environment rendered in the browser — pan, orbit, and move through the scene to understand how physical-AI concepts play out in a spatial world." },
+      { title: "Volleyball — Attack Sets", kicker: "3D simulation", status: "exp", url: "https://clarkngo.github.io/volleyball/prototypes/06-attack-sets.html", tags: "3D · Sports", desc: "A 3D volleyball prototype that visualizes attack-set plays — see how positioning, timing, and set patterns unfold in space, turning coaching theory into something you can watch." },
+      { title: "Maritime Simulator", kicker: "Simulator", status: "exp", url: "https://clarkngo.github.io/physical-ai/#/simulators/maritime", tags: "Scenario · Training", desc: "A hands-on maritime scenario simulator for working through situations interactively — a training-style environment built to make abstract maritime concepts concrete." },
+      { title: "Wireshark Simulator", kicker: "Network sim", status: "exp", url: "https://clarkngo.github.io/playground/simulators/wireshark-simulator.html", tags: "Networking · Security", desc: "A packet-inspection-style simulator for teaching network analysis — practice reading traffic and spotting patterns the way you would in Wireshark, without a live capture." },
+    ]
+  },
+  {
+    section: "Technical & System Design",
+    items: [
+      { title: "Process Flow", kicker: "Collaborative editor", status: "live", url: "https://clarkngo.github.io/playground/system-design/collaborative-document-editor.html", tags: "Architecture · Walkthrough", desc: "A system-design walkthrough of a collaborative document editor — how real-time sync, conflict resolution, and concurrent editing fit together, mapped out as a visual process flow." },
+      { title: "Metrics Calculator", kicker: "RPS & peak load", status: "live", url: "https://clarkngo.github.io/playground/system-design-metrics/01-rps-peak-load.html", tags: "Capacity · Estimation", desc: "Plug in your numbers and calculate requests-per-second and peak load — a practical estimation tool for capacity planning and the back-of-the-envelope math system design interviews love." },
+      { title: "Cryptography Labs", kicker: "Hands-on security", status: "live", url: "https://clarkngo.github.io/playground/cryptography-labs/index.html", tags: "Security · Interactive", desc: "Interactive labs for learning cryptography by doing — work through ciphers, keys, and core primitives hands-on to build real intuition for how modern security actually works." },
+      { title: "Industry Primer", kicker: "Fast context", status: "live", url: "https://clarkngo.github.io/playground/primer/index.html", tags: "Overview · Reference", desc: "A fast primer for getting up to speed on industry concepts — the essential context and vocabulary distilled into a quick reference you can skim before going deeper." },
+    ]
+  },
+  {
+    section: "Notes & Learning",
+    items: [
+      { title: "Learning Notes", kicker: "My notes", status: "live", url: "https://clarkngo.github.io/my-learning-notes/", tags: "Knowledge base", desc: "An ever-growing, personal knowledge base — the notes I take as I learn, organized so they're actually searchable and useful later. A window into how I study and connect ideas." },
+      { title: "Class Notes", kicker: "Data governance", status: "live", url: "https://clarkngo.github.io/playground/class-notes/data-governance/module-01.html", tags: "Data · Module 1", desc: "Structured class notes for data governance, module one — policies, ownership, quality, and compliance laid out clearly as a teaching and study reference." },
+      { title: "Conference Notes", kicker: "NCyTE 2025", status: "live", url: "https://clarkngo.github.io/playground/conference-notes/ncyte-workshop-2025/index.html", tags: "Cybersecurity · Event", desc: "Notes and takeaways captured live at the NCyTE 2025 cybersecurity education workshop — sessions, ideas, and resources gathered in one place while they were fresh." },
+      { title: "Strategy", kicker: "STC · NCyTE 2025", status: "exp", url: "https://clarkngo.github.io/playground/stc-strategy/ncyte-workshop-2025/index.html", tags: "Planning · Roadmap", desc: "Strategy work developed around the NCyTE 2025 workshop — turning conference insights into a concrete plan of goals, priorities, and next steps." },
+      { title: "Deep Dive", kicker: "Wild Rift", status: "exp", url: "https://clarkngo.github.io/playground/deep-dives/01-wild-rift.html", tags: "Analysis · Games", desc: "A long-form deep dive that uses Wild Rift as its subject — analyzing systems, mechanics, and design decisions in detail to show how thorough analysis is done on something fun." },
+    ]
+  },
+  {
+    section: "Writing & Publishing",
+    items: [
+      { title: "Blogs", kicker: "Writing", status: "live", url: "https://clarkngo.github.io/blogs/", tags: "Essays · Reflections", desc: "My blog — longer-form writing where I think out loud about technology, teaching, and the things I'm building. Where ideas get room to breathe beyond a single project page." },
+      { title: "eBooks", kicker: "Long-form", status: "live", url: "https://clarkngo.github.io/ebooks", tags: "Books · Guides", desc: "Extended written works and eBooks — the most polished, in-depth pieces I've put together, packaged for reading start to finish rather than skimming." },
+      { title: "Vibe Coding", kicker: "Building by feel", status: "exp", url: "https://clarkngo.github.io/vibe-coding/", tags: "AI-assisted dev", desc: "Explorations in vibe coding — building software conversationally with AI, letting intent and iteration lead. A running experiment in what this new way of making things feels like." },
+    ]
+  },
+  {
+    section: "Games & Creative",
+    items: [
+      { title: "Baron Smite", kicker: "Wild Rift", status: "live", url: "https://clarkngo.github.io/playground/wild-rift/baron-smite.html", tags: "Mini-game · MOBA", desc: "A Wild Rift-themed interactive mini-game built around the split-second timing of a Baron smite — a small, playable study in reflex and precision." },
+      { title: "Thex Mecha", kicker: "Wild Rift", status: "live", url: "https://clarkngo.github.io/playground/wild-rift/thex-mecha.html", tags: "Interactive · MOBA", desc: "A Wild Rift-inspired interactive build with a mecha twist — a creative experiment in game feel, theming, and browser-based interactivity." },
+      { title: "Legacy of the Monolith", kicker: "Web game", status: "exp", url: "https://clarkngo.github.io/legacy-of-the-monolith-web/", tags: "Game · Browser", desc: "A browser-based game experiment — a self-contained playable world built to explore mechanics, story, and what's possible with pure web tech." },
+      { title: "Hazard Mons", kicker: "Web game", status: "exp", url: "https://clarkngo.github.io/hazard-mons/", tags: "Collect · Browser", desc: "A creature-collecting-style web game — catch, collect, and explore in a lightweight monster-taming experiment that runs entirely in the browser." },
+      { title: "Juz Clarkie", kicker: "Personal creative", status: "exp", url: "https://clarkngo.github.io/juzclarkie/", tags: "Personal · Fun", desc: "A personal creative space for playful, just-for-fun builds — the corner of my work where the only goal is to make something that makes people smile." },
+      { title: "Juz Bday 2026", kicker: "Celebration", status: "exp", url: "https://clarkngo.github.io/juzclarkie/juzbday2026/index.html", tags: "Celebration · Interactive", desc: "An interactive birthday mini-site for 2026 — a small, heartfelt celebration built as a personal gift and a fun excuse to play with web animation." },
+    ]
+  },
+];
+
+const app = document.getElementById("app");
+
+function cardHTML(it) {
+  const tags = (it.tags || "").split("·").map(t => t.trim()).filter(Boolean)
+    .map(t => `<span class="pill">${t}</span>`).join("");
+  return `
+    <div class="card" tabindex="0">
+      <div class="flip">
+        <div class="face front">
+          <span class="kicker">${it.kicker}</span>
+          <h3>${it.title}</h3>
+          <div class="pills">${tags}</div>
+          <span class="flip-hint">⤿ flip for details</span>
+        </div>
+        <div class="face back">
+          <div class="back-body">
+            <h3>${it.title}</h3>
+            <p class="desc">${it.desc}</p>
+          </div>
+          <a class="visit" href="${it.url}" target="_blank" rel="noopener">Open ↗</a>
+        </div>
+      </div>
+    </div>`;
+}
+
+function render() {
+  app.innerHTML = DATA.map(sec => {
+    const cards = sec.items.map(cardHTML).join("");
+    return `<h2 class="section-title">${sec.section}</h2>
+            <div class="grid">${cards}</div>`;
+  }).join("");
+  attachFlips();
+}
+
+function attachFlips() {
+  document.querySelectorAll(".card").forEach(card => {
+    card.addEventListener("click", e => {
+      if (e.target.closest("a")) return;
+      card.classList.toggle("flipped");
+    });
+    card.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); card.classList.toggle("flipped"); }
+    });
+  });
+}
+
+render();
+</script>
+</body>
+</html>
