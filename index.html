@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Clark Ngo · AI for Educators — Showcase</title>
 <meta name="description" content="Outputs and learnings from the AI for Educators workshop — apps, simulations, labs, notes, and experiments by Clark Ngo." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2048%2048'%3E%3Cdefs%3E%3ClinearGradient%20id='g'%20x1='0'%20y1='0'%20x2='1'%20y2='1'%3E%3Cstop%20offset='0'%20stop-color='%235b8cff'/%3E%3Cstop%20offset='1'%20stop-color='%23a855f7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width='48'%20height='48'%20rx='13'%20fill='url(%23g)'/%3E%3Cpath%20d='M24,13L38,20L24,27L10,20Z'%20fill='%23fff'/%3E%3Cpath%20d='M16,23L24,26.6L32,23V29c0,2.2-3.6,3.6-8,3.6S16,31.2,16,29Z'%20fill='%23fff'%20opacity='.9'/%3E%3Cpath%20d='M24,20H38'%20stroke='%23fff'%20stroke-width='1.4'/%3E%3Cpath%20d='M38,20V25'%20stroke='%23fff'%20stroke-width='1.4'/%3E%3Ccircle%20cx='38'%20cy='26.4'%20r='1.7'%20fill='%23fff'/%3E%3C/svg%3E" />
 <style>
   :root {
     --bg: #0d1117;
@@ -51,7 +52,25 @@
   .wrap { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
 
   /* Header */
-  header { padding: 68px 0 26px; }
+  header { padding: 48px 0 26px; }
+  .brand {
+    display: inline-flex; align-items: center; gap: 13px;
+    text-decoration: none; margin-bottom: 26px;
+  }
+  .brand-mark {
+    flex: none; border-radius: 13px;
+    box-shadow: 0 8px 22px color-mix(in srgb, var(--accent) 42%, transparent);
+    transition: transform .25s cubic-bezier(.2,.7,.2,1);
+  }
+  .brand:hover .brand-mark { transform: translateY(-2px) rotate(-4deg); }
+  .brand-text strong {
+    display: block; color: var(--ink); font-size: 18px; font-weight: 800;
+    letter-spacing: -.01em; line-height: 1.1;
+  }
+  .brand-text span {
+    display: block; color: var(--ink-soft); font-size: 12px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase; margin-top: 3px;
+  }
   .eyebrow {
     display: inline-flex; align-items: center; gap: 8px;
     font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
@@ -185,6 +204,24 @@
 <body>
 <div class="wrap">
   <header>
+    <a class="brand" href="https://clarkngo.github.io/" target="_blank" rel="noopener" aria-label="Clark Ngo — AI Showcase home">
+      <svg class="brand-mark" viewBox="0 0 48 48" width="46" height="46" aria-hidden="true">
+        <defs>
+          <linearGradient id="brandGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#5b8cff"/>
+            <stop offset=".5" stop-color="#8a6bff"/>
+            <stop offset="1" stop-color="#a855f7"/>
+          </linearGradient>
+        </defs>
+        <rect width="48" height="48" rx="13" fill="url(#brandGrad)"/>
+        <path d="M24 13 38 20 24 27 10 20Z" fill="#fff"/>
+        <path d="M16 23 24 26.6 32 23V29c0 2.2-3.6 3.6-8 3.6S16 31.2 16 29Z" fill="#fff" opacity=".9"/>
+        <path d="M24 20h14" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M38 20v5" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/>
+        <circle cx="38" cy="26.4" r="1.7" fill="#fff"/>
+      </svg>
+      <span class="brand-text"><strong>Clark Ngo</strong><span>AI Showcase</span></span>
+    </a>
     <span class="eyebrow">✦ AI for Educators · Workshop Showcase</span>
     <h1>Building &amp; Learning with AI</h1>
     <p class="lead">A collection of outputs and experiments from the AI for Educators workshop — interactive apps, 3D simulations, technical labs, notes, and creative builds. Hover or tap any card to flip it.</p>
@@ -242,6 +279,7 @@ const DATA = [
     items: [
       { title: "Process Flow", kicker: "Collaborative editor", status: "live", url: "https://clarkngo.github.io/playground/system-design/collaborative-document-editor.html", tags: "Architecture · Walkthrough", desc: "A system-design walkthrough of a collaborative document editor — how real-time sync, conflict resolution, and concurrent editing fit together, mapped out as a visual process flow." },
       { title: "Metrics Calculator", kicker: "RPS & peak load", status: "live", url: "https://clarkngo.github.io/playground/system-design-metrics/01-rps-peak-load.html", tags: "Capacity · Estimation", desc: "Plug in your numbers and calculate requests-per-second and peak load — a practical estimation tool for capacity planning and the back-of-the-envelope math system design interviews love." },
+      { title: "Case Studies", kicker: "System design", status: "live", url: "https://clarkngo.github.io/playground/case-studies/index.html", tags: "Real-world · Deep analysis", desc: "A collection of system-design case studies that break down how real-world systems are architected — the trade-offs, bottlenecks, and decisions behind scaling them." },
       { title: "Cryptography Labs", kicker: "Hands-on security", status: "live", url: "https://clarkngo.github.io/playground/cryptography-labs/index.html", tags: "Security · Interactive", desc: "Interactive labs for learning cryptography by doing — work through ciphers, keys, and core primitives hands-on to build real intuition for how modern security actually works." },
       { title: "Industry Primer", kicker: "Fast context", status: "live", url: "https://clarkngo.github.io/playground/primer/index.html", tags: "Overview · Reference", desc: "A fast primer for getting up to speed on industry concepts — the essential context and vocabulary distilled into a quick reference you can skim before going deeper." },
     ]
